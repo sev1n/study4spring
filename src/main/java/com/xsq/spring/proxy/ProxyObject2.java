@@ -1,7 +1,7 @@
 package com.xsq.spring.proxy;
 
 /**
- * cglib代理
+ * cglib锟斤拷锟斤拷
  */
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
@@ -12,9 +12,9 @@ import net.sf.cglib.proxy.MethodProxy;
 public class ProxyObject2 implements MethodInterceptor{
 
 	public Object intercept(Object arg0, Method arg1, Object[] arg2, MethodProxy arg3) throws Throwable {
-		System.out.println("当前时间：" + LocalDateTime.now());
+		System.out.println("锟斤拷前时锟戒：" + LocalDateTime.now());
 		Object invokeSuper = arg3.invoke(arg0, arg2);
-		System.out.println("当前时间：" + LocalDateTime.now());
+		System.out.println("锟斤拷前时锟戒：" + LocalDateTime.now());
 		return invokeSuper;
 	}
 

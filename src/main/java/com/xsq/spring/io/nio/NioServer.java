@@ -3,14 +3,20 @@ package com.xsq.spring.io.nio;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.channels.SelectableChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.Set;
 
+/**
+ * 学习地址：https://blog.csdn.net/caohongshuang/article/details/79455391
+ * nio服务端轮询客户端就绪请求进行处理。
+ * @author Administrator
+ *
+ */
 public class NioServer {
 	private static final int PORT = 12345;
 	private static final int SIZE = 1024;
@@ -50,17 +56,42 @@ public class NioServer {
 		if (key.isAcceptable()) {
 			ServerSocketChannel sc = (ServerSocketChannel) key.channel();
 			SocketChannel socket = sc.accept();
+			System.out.println("acceptable " + socket);
 			socket.configureBlocking(false);
 			socket.register(selector, SelectionKey.OP_READ);
 		}
 		if (key.isReadable()) {
 			SocketChannel channel = (SocketChannel) key.channel();
+			System.out.println("readable " + channel);
 			ByteBuffer bb = ByteBuffer.allocate(SIZE);
-			while(channel.read(bb) != -1){
+			String cal = null;
+			while(channel.read(bb) > 0){
 				bb.flip();//明确数据长度
-				System.out.println(new String(bb.array()));
+				cal = new String(bb.array(), 0, bb.limit(), Charset.forName("UTF-8"));
+				System.out.println(cal);
 				bb.clear();//指针复位
 			}
+			String[] s = cal.replace(" ", "").split("");
+			String operator = s[1];
+			int value = 0;
+			switch (operator) {
+			case "+":
+				value = Integer.valueOf(s[0]) + Integer.valueOf(s[2]);
+				break;
+
+			case "-":
+				value = Integer.valueOf(s[0]) - Integer.valueOf(s[2]);
+				break;
+				
+			case "*":
+				value = Integer.valueOf(s[0]) * Integer.valueOf(s[2]);
+				break;
+				
+			case "/":
+				value = Integer.valueOf(s[0]) / Integer.valueOf(s[2]);
+				break;
+			}
+			channel.write(ByteBuffer.wrap(String.valueOf(value).getBytes()));
 		}
 	}
 	

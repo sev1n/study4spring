@@ -1,7 +1,7 @@
 package com.xsq.spring.proxy;
 
 /**
- * cglib´úÀí
+ * cglibï¿½ï¿½ï¿½ï¿½
  */
 import java.lang.reflect.Method;
 
@@ -13,10 +13,10 @@ public class ProxyObject implements MethodInterceptor {
 	private Object target;
 
 	public Object intercept(Object arg0, Method arg1, Object[] arg2, MethodProxy arg3) throws Throwable {
-		System.out.println("Ç°ÖÃÊä³ö");
+		System.out.println("Ç°ï¿½ï¿½ï¿½ï¿½ï¿½");
 		Object invoke = arg3.invokeSuper(arg0, arg2);
 		//Object invoke = arg3.invoke(target, arg2);
-		System.out.println("ºóÖÃÊä³ö");
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		return invoke;
 	}
 

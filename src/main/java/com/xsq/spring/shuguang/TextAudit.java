@@ -84,7 +84,7 @@ public class TextAudit {
 			ByteBuffer bf = ByteBuffer.allocate(SIZE);
 			while (channel.read(bf) != -1) {
 				bf.flip();
-				text.append(new String(bf.array()));
+				text.append(new String(bf.array(), 0, bf.limit(), Charset.forName("UTF-8")));
 				bf.clear();
 			}
 		} catch (Exception e) {

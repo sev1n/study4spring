@@ -6,6 +6,11 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * bio服务端处理线程和客户端请求一对一处理，可使用线程池优化
+ * @author Administrator
+ *
+ */
 public class ServerNormal {
 
 	public final static int port = 12345;
